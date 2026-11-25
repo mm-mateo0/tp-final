@@ -32,6 +32,7 @@ def test_poison_message_reaches_real_dlq():
     for delay in (2, 4, 8):
         run(work_url, lambda event: None, QuietLogger(), once=True)
         time.sleep(delay + 1)
+    run(work_url, lambda event: None, QuietLogger(), once=True)
     deadline = time.monotonic() + 120
     found = None
     while time.monotonic() < deadline:
