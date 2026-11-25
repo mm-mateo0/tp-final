@@ -46,7 +46,7 @@ Ver `.env.example`. Las variables principales son:
 - `AWS_ENDPOINT_URL`: debe apuntar a `http://localhost:4566`.
 - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`: credenciales ficticias para LocalStack.
 - `AWS_DEFAULT_REGION`: región del laboratorio.
-- `GROUP_ID` y `QUEUE_PREFIX`: identificadores del grupo y de las colas.
+- `GROUP_ID`: identificador propio del estudiante/proyecto; `QUEUE_PREFIX`: prefijo único de las colas.
 - `WEBHOOK_SECRET`: clave compartida del webhook, mínimo 16 caracteres.
 - `NOTIFY_PROVIDER`: `console`, `telegram` o `slack`.
 - `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` o `SLACK_WEBHOOK_URL`: solo para el proveedor elegido.
@@ -178,7 +178,7 @@ Guardar en `evidencias/` capturas o archivos anonimizados de logs nominales y de
 - `NOTIFY_PROVIDER=console` sirve para desarrollo; la evidencia final requiere un envío real por Telegram o Slack.
 
 ## Limpieza del laboratorio
-Detener primero el worker y el receptor. Conservar `data/inventory.json` mientras se necesite reconocer los recursos creados. Antes de eliminar recursos, consultar los IDs del inventario y borrar exclusivamente los recursos propios del grupo. No borrar recursos por nombre sin verificar sus etiquetas de propiedad.
+Detener primero el worker y el receptor. Conservar `data/inventory.json` mientras se necesite reconocer los recursos creados. Antes de eliminar recursos, consultar los IDs del inventario y borrar exclusivamente los recursos creados para este proyecto individual. No borrar recursos por nombre sin verificar sus etiquetas de propiedad.
 
 ## Video de defensa
 Completar el vínculo y las marcas de tiempo después de grabar:
