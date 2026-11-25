@@ -1,23 +1,34 @@
 # Verificación técnica del proyecto
 
-Fecha de revisión: 24/11/2026.
+Fecha de revisión: 25/11/2026.
 
-## Comprobaciones ejecutadas en el entorno de revisión
-- `python -m compileall -q src tests`: correcto.
+## Comprobaciones ejecutadas en la PC del estudiante
+
+- `python -m pip install -e .`: instalación editable completada correctamente.
+- `python -m compileall -q src tests`: correcto, sin errores de compilación.
 - `python -m pytest -q`: **24 passed, 1 skipped**.
-- Las pruebas unitarias cubren validación, HMAC, receptor HTTP, persistencia, idempotencia, ACK, reintentos, notificaciones y rotación gzip.
+- Se generó una advertencia de compatibilidad de Starlette relacionada con `httpx`; no impidió la ejecución de las pruebas.
 
-## Prueba pendiente
-La prueba de integración `tests/test_integration.py::test_poison_message_reaches_real_dlq` quedó omitida porque este entorno de revisión no tiene LocalStack configurado ni ejecutándose. Por lo tanto, todavía no hay evidencia real de redrive a DLQ, EC2 mock, S3 o notificación externa.
+Las pruebas automatizadas cubren validación, HMAC, receptor HTTP, persistencia, idempotencia, ACK, reintentos, notificaciones y rotación gzip.
 
-## Instalación pendiente en el equipo de entrega
-La instalación editable (`python -m pip install -e .`) no pudo verificarse en el entorno de revisión porque no tiene acceso a Internet para descargar los requisitos de construcción. Debe ejecutarse en la PC del estudiante con conexión y con Docker Desktop/LocalStack disponibles.
+## Prueba de integración pendiente
+
+La prueba `tests/test_integration.py::test_poison_message_reaches_real_dlq` quedó omitida.
+
+La imagen de LocalStack utilizada por el proyecto requiere un token de autorización (`LOCALSTACK_AUTH_TOKEN`). El estudiante no dispone de un token proporcionado por la cátedra, por lo que no fue posible iniciar LocalStack y ejecutar la integración.
+
+Por este motivo, todavía no hay evidencia de funcionamiento real de redrive a DLQ, EC2 mock, S3 ni notificaciones externas mediante el entorno integrado.
 
 ## Archivo de bloqueo de dependencias
-`requirements-lock.txt` contiene la instrucción de generación, no versiones inventadas. Después de instalar las dependencias en el entorno definitivo, ejecutar:
+
+Después de instalar las dependencias en el entorno definitivo, se puede generar el archivo de versiones con:
 
 ```powershell
 python -m pip freeze > requirements-lock.txt
 ```
 
-No presentar la prueba omitida como aprobada. Guardar la salida real de la prueba de integración y la evidencia del estado consultado por Boto3 antes de entregar.
+## Estado de la verificación
+
+Las pruebas automatizadas disponibles y la compilación de los archivos Python finalizaron correctamente. La integración con LocalStack permanece pendiente por falta de autorización para utilizar la imagen requerida.
+
+No presentar la prueba omitida como aprobada ni afirmar que se verificaron funcionalidades de integración que no pudieron ejecutarse.
