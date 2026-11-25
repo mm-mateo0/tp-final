@@ -1,32 +1,92 @@
-# Verificación técnica del proyecto
+# Verificación técnica del Proyecto Fénix
 
-Fecha de revisión: 25/11/2026.
+**Fecha de revisión:** 25/11/2026  
+**Responsable:** Mateo Ismael Liendro  
+**Modalidad:** Trabajo individual
 
-## Comprobaciones ejecutadas en la PC del estudiante
+## 1. Entorno de ejecución
 
-- `python -m pip install -e .`: instalación editable completada correctamente.
-- `python -m compileall -q src tests`: correcto, sin errores de compilación.
-- Docker y Docker Compose: disponibles y operativos.
-- LocalStack `localstack/localstack:2026.10.0`: contenedor iniciado y estado `healthy`.
-- Endpoint de salud de LocalStack (`http://localhost:4566/_localstack/health`): respondió HTTP 200.
-- `python -m pytest -v -s tests/test_integration.py`: **1 passed**. Se comprobó que un mensaje JSON corrupto enviado a SQS fue recibido por el worker y terminó en la Dead Letter Queue (DLQ), conservando su contenido original.
-- `python -m pytest -q`: **25 passed, 0 failed**.
-- Se generó una advertencia de compatibilidad de Starlette relacionada con `httpx`; no impidió la ejecución de las pruebas.
+- Sistema operativo: Windows.
+- Python: 3.15.2.
+- Docker: 29.9.3.
+- Docker Compose: 5.7.1.
+- LocalStack: 2026.10.0.
+- Servicio de LocalStack: ejecutándose correctamente en Docker.
 
-Las pruebas automatizadas cubren validación, HMAC, receptor HTTP, persistencia, idempotencia, ACK, reintentos, notificaciones y rotación gzip. La prueba de integración confirmó el redrive real de un mensaje venenoso hacia la DLQ en LocalStack.
+Se verificó la disponibilidad de LocalStack mediante el endpoint `http://localhost:4566/_localstack/health`, que respondió con código HTTP 200.
 
-## Alcance de la evidencia
+## 2. Verificaciones realizadas
 
-La integración SQS/DLQ fue ejecutada y aprobada en LocalStack. Esta verificación no debe interpretarse como evidencia de integración con servicios AWS reales ni como aprobación de funcionalidades externas que no hayan sido probadas por separado, como notificaciones mediante Telegram o Slack.
+| Verificación | Resultado |
+|---|---|
+| Instalación editable del proyecto (`python -m pip install -e .`) | Correcta |
+| Compilación de módulos (`python -m compileall -q src tests`) | Correcta |
+| Disponibilidad de LocalStack | Correcta |
+| Pruebas automatizadas completas | 25 aprobadas |
 
-## Archivo de bloqueo de dependencias
+## 3. Resultado de las pruebas
 
-Después de instalar las dependencias en el entorno definitivo, se puede generar el archivo de versiones con:
+Comando ejecutado:
 
 ```powershell
-python -m pip freeze > requirements-lock.txt
+python -m pytest -q
 ```
 
-## Estado de la verificación
+Resultado:
 
-La compilación, las 25 pruebas automatizadas y la prueba de integración SQS/DLQ finalizaron correctamente en el entorno local del estudiante. Se conserva la advertencia de Starlette relacionada con `httpx` como observación no bloqueante.
+```text
+25 passed, 1 warning in 39.90s
+```
+
+Las 25 pruebas finalizaron correctamente.
+
+Se observó una advertencia de compatibilidad relacionada con el uso de `httpx` en `starlette.testclient`. Esta advertencia no impidió la ejecución ni la aprobación de las pruebas.
+
+## 4. Prueba de integración con SQS y DLQ
+
+Prueba ejecutada:
+
+`tests/test_integration.py::test_poison_message_reaches_real_dlq`
+
+Resultado: **APROBADA**.
+
+Se utilizó LocalStack 2026.10.0 ejecutándose en Docker para comprobar el funcionamiento real de las colas SQS.
+
+La prueba realizó las siguientes verificaciones:
+
+1. Creación de una cola de eventos y una Dead Letter Queue (DLQ).
+2. Envío de un mensaje con contenido JSON corrupto.
+3. Recepción del mensaje por el worker.
+4. Aplicación de los reintentos y tiempos de espera.
+5. Redirección automática del mensaje a la DLQ.
+6. Conservación del contenido original del mensaje.
+
+Resultado de la ejecución individual:
+
+```text
+1 passed in 36.27s
+```
+
+La ejecución completa posterior también aprobó las 25 pruebas.
+
+## 5. Alcance y observaciones
+
+Las pruebas automatizadas verifican los componentes y comportamientos cubiertos por la suite del proyecto, incluyendo validación, HMAC, receptor HTTP, persistencia, idempotencia, ACK, reintentos, notificaciones y rotación de logs.
+
+La prueba de integración con SQS y DLQ fue ejecutada satisfactoriamente contra LocalStack.
+
+No se presentan como verificadas integraciones externas que no hayan sido ejecutadas específicamente.
+
+## 6. Configuración y seguridad
+
+- Las credenciales de prueba utilizadas corresponden al entorno emulado.
+- La configuración local se almacena en `.env`.
+- El archivo `.env` no debe publicarse en GitHub.
+- `.env.example` contiene las variables necesarias como referencia, sin credenciales personales.
+- No se utilizaron credenciales de una cuenta AWS real para las pruebas locales.
+
+## 7. Estado final
+
+El proyecto fue instalado, compilado y probado en el entorno local.
+
+**Resultado final: 25 pruebas aprobadas y prueba de integración real con SQS y DLQ satisfactoria.**
