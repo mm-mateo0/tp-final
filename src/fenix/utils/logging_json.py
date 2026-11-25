@@ -1,4 +1,4 @@
-"""Apoyo reutilizable de Tritón y Vulcano; integrante 4 debe verificarlo."""
+"""Logging JSON asíncrono para los procesos del Proyecto Fénix."""
 import gzip  # Comprime los históricos rotados.
 import json  # Emite una estructura por línea.
 import logging  # Usa la biblioteca estándar de observabilidad.
