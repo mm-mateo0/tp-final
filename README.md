@@ -5,12 +5,13 @@ Fénix recibe alertas de laboratorio mediante un webhook autenticado con HMAC-SH
 
 El laboratorio contempla dos casos: `node-01` (EC2 mock: `stopped` → `running`) y `bucket-01` (S3: recuperar etiquetas obligatorias). Una instancia EC2 mock no es una máquina virtual Linux real.
 
-## Integrantes y roles
-Completar esta tabla con los datos reales antes de entregar. No inventar nombres, correos ni matrículas.
+## Responsable del proyecto
 
-| Rol | Apellido y nombre | Correo | Módulos | Pruebas defendidas |
+| Modalidad | Apellido y nombre | Correo | Responsabilidad | Pruebas a defender |
 |---|---|---|---|---|
-| Integrante único / coordinación | Completar | Completar | Integración general | Completar |
+| Trabajo individual | Mateo Ismael Liendro | No consignado | Desarrollo e integración completa del sistema | Todas las pruebas del proyecto |
+
+El proyecto se desarrolla y presenta de manera individual. La responsabilidad sobre la implementación, integración, pruebas y defensa corresponde al estudiante indicado.
 
 ## Prerrequisitos y versiones
 - Windows 10/11 de 64 bits o Linux/macOS.
