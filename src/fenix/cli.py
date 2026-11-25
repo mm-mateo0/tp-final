@@ -1,4 +1,4 @@
-"""CLI de apoyo. Los comandos existen; dependen de completar los TODO del equipo."""
+"""Interfaz de línea de comandos para operar el laboratorio Fénix."""
 import argparse  # Proporciona subcomandos reproducibles.
 import json  # Lee archivos de eventos de prueba.
 import os  # Recupera configuración del entorno.
