@@ -90,3 +90,45 @@ No se presentan como verificadas integraciones externas que no hayan sido ejecut
 El proyecto fue instalado, compilado y probado en el entorno local.
 
 **Resultado final: 25 pruebas aprobadas y prueba de integración real con SQS y DLQ satisfactoria.**
+
+
+## Verificación final — 26/11/2026
+
+### Prueba de integración real con LocalStack
+
+Se realizó una prueba completa del flujo de autorreparación de Proyecto Fénix.
+
+**Resultado obtenido:**
+
+1. Se inicializaron las colas SQS principal y DLQ.
+2. Se configuraron los recursos de demostración en LocalStack.
+3. Se provocó una falla controlada en el recurso `node-01`.
+4. Se envió el evento `evt-node-001` mediante el webhook autenticado.
+5. El servidor respondió `HTTP 202 Accepted`.
+6. El worker consumió y procesó el mensaje de la cola.
+7. El sistema ejecutó la reparación de la instancia EC2.
+8. Se verificó mediante Boto3 que la instancia terminó en estado `running`.
+9. Se recibió correctamente una notificación real en Telegram:
+
+`Fénix: instance.stopped en node-01; resultado=repaired; evento=evt-node-001`
+
+### Pruebas automatizadas
+
+Ejecución de la suite completa:
+
+`python -m pytest -q`
+
+Resultado: **25 pruebas aprobadas**.
+
+### Evidencias
+
+- Captura de la notificación recibida en Telegram.
+- Captura de la consulta Boto3 mostrando el estado `running`.
+- Respuesta HTTP 202 del webhook.
+- Resultado de las pruebas automatizadas.
+
+### Estado
+
+El flujo principal de recepción, procesamiento, reparación y notificación fue ejecutado satisfactoriamente con LocalStack.
+
+La grabación del video de defensa queda pendiente de incorporación al repositorio.
